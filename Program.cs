@@ -1,10 +1,13 @@
 using PingApp.Components;
+using PingApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<PingService>();
 
 var app = builder.Build();
 

@@ -1,7 +1,29 @@
 ﻿@page "/"
+@using PingApp.Services
+@inject PingService pingService;
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>PING</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>The PING app</h1>
 
-Welcome to your new app.
+<div>
+    <input type="text" placeholder="Address" @bind="@Address"/>
+    <button type="submit" @onclick="@(async () => await Ping())">Ping</button>
+</div>
+
+<div>
+    <textarea readonly>@PingTimes</textarea>
+</div>
+
+@code{
+    public string? PingTimes { get; set; }
+
+    public string? Address { get; set; }
+
+    private async Task Ping()
+    {
+        var time = await Task.Run(() => pingService.Ping(Address!));
+        PingTimes += time.ToString() + Environment.NewLine;
+    }
+}
